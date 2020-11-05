@@ -1,0 +1,4 @@
+pytesseract
+fuzzywuzzy
+opencv-python
+numpy
