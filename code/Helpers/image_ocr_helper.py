@@ -11,8 +11,8 @@ from pytesseract import Output, pytesseract
 
 
 def get_characters_and_outline_positions(image):
-    custom_config = r'-l jpn+eng --psm 6'
-    h, w, c = image.shape
+    custom_config = r'-l jpn --psm 6'
+    h, w = image.shape
     boxes = pytesseract.image_to_boxes(image, config=custom_config)
     for b in boxes.splitlines():
         b = b.split(' ')
@@ -29,6 +29,7 @@ def get_characters_to_string(image):
 
 
 def get_words_and_outline_positions(image):
+    custom_config = r'-l jpn --psm 6'
     d = pytesseract.image_to_data(image, output_type=Output.DICT)
     n_boxes = len(d['text'])
     for i in range(n_boxes):
