@@ -9,6 +9,7 @@ img = cv2.imread('../Support/ImagesTest/OCR_Test2.png')
 # custom_config = r'--oem 3 --psm 6 outputbase digits'
 # custom_config = r'-c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyz --psm 6' pegar apenas essas letras
 # custom_config = r'-c tessedit_char_blacklist=abcdefghijklmnopqrstuvwxyz --psm 6' Qualquer coisa menos essas letras
+# custom_config = r' -c preserve_interword_spaces=1 -l jpn --psm 6' tratar espaços gerados pelo ocr
 # print(pytesseract.image_to_string(img, config=custom_config))
 
 def get_characters_and_outline_positions(image):
@@ -24,7 +25,7 @@ def get_characters_and_outline_positions(image):
 
 
 def get_characters_to_string(image):
-    custom_config = r' -c preserve_interword_spaces=1 -l jpn --psm 6'
+    custom_config = r'-c preserve_interword_spaces=1 -l jpn --psm 6'
     result = pytesseract.image_to_string(image, config=custom_config)
     print(result)
 
