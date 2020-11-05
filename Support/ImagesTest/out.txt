@@ -1,0 +1,15 @@
+This document describes requirements for general Japanese layout realized with technologies like CSS, SVG
+and XSL-FO. The document is mainly based on a standard for Japanese layout JIS X 4051, however it also
+addresses areas which are not covered by JIS X 4051. This version integrates errata and links to related
+materials
+
+この文書は。 CSS。 SVGおよびXSL-FOなどの技術で実現が求められる一般的な日本語組版の要件を記述したも
+のです. ごの文書は, 主としてJIS X 4051 (日本語組版規則) に基づいていますが, 一部, JTS X 4051に記載
+
+されていない事項[         及しています. ごの版では, 誤りの訂正や関連情報へのリンク追加などが行われていま
+す.
+
+ 
+
+                                                                                                                                                                                                             
+
