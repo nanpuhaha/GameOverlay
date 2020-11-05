@@ -1,0 +1,7 @@
+//Ocr para japones, japones+ingles 
+tesseract myscan.png out -l jpn
+tesseract myscan.png out -l eng+jpn
+//Comando retorna um html com a posição do texto
+tesseract myscan.png out -l jpn hocr
+
+tesseract.exe C:\dev\GameOverlay\Support\ImagesTest\OCR_Test.PNG C:\dev\GameOverlay\Support\ImagesTest\OCR_Test -l jpn
