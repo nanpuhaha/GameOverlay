@@ -1,62 +1,63 @@
+import re
 import cv2
-import numpy as np
+from pytesseract import Output, pytesseract
 
-img = cv2.imread('image.jpg')
-
-
-# get grayscale image
-def get_grayscale(image):
-    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+img = cv2.imread('../Support/ImagesTest/OCR_Test2.png')
 
 
-# noise removal
-def remove_noise(image):
-    return cv2.medianBlur(image, 5)
+# custom config for tesseract
+# custom_config = r'--oem 3 --psm 6 outputbase digits'
+# custom_config = r'-c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyz --psm 6' pegar apenas essas letras
+# custom_config = r'-c tessedit_char_blacklist=abcdefghijklmnopqrstuvwxyz --psm 6' Qualquer coisa menos essas letras
+# print(pytesseract.image_to_string(img, config=custom_config))
+
+def get_characters_and_outline_positions(image):
+    custom_config = r'-l jpn+eng --psm 6'
+    h, w, c = image.shape
+    boxes = pytesseract.image_to_boxes(image, config=custom_config)
+    for b in boxes.splitlines():
+        b = b.split(' ')
+        img_result = cv2.rectangle(img, (int(b[1]), h - int(b[2])), (int(b[3]), h - int(b[4])), (0, 255, 0), 1)
+
+    cv2.imshow('img', img_result)
+    cv2.waitKey(0)
 
 
-# thresholding
-def thresholding(image):
-    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+def get_characters_to_string(image):
+    custom_config = r' -c preserve_interword_spaces=1 -l jpn --psm 6'
+    result = pytesseract.image_to_string(image, config=custom_config)
+    print(result)
 
 
-# dilation
-def dilate(image):
-    kernel = np.ones((5, 5), np.uint8)
-    return cv2.dilate(image, kernel, iterations=1)
+def get_words_and_outline_positions(image):
+    d = pytesseract.image_to_data(image, output_type=Output.DICT)
+    n_boxes = len(d['text'])
+    for i in range(n_boxes):
+        if int(d['conf'][i]) > 60:
+            (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
+            image = cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    cv2.imshow('img', image)
+    cv2.waitKey(0)
 
 
-# erosion
-def erode(image):
-    kernel = np.ones((5, 5), np.uint8)
-    return cv2.erode(image, kernel, iterations=1)
+def get_text_from_image_with_regex(image):
+    d = pytesseract.image_to_data(image, output_type=Output.DICT)
+    keys = list(d.keys())
+
+    regex_pattern = '^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/(19|20)\d\d$'
+    regex_pattern = '/japanese/gim'
+
+    n_boxes = len(d['text'])
+    for i in range(n_boxes):
+        if int(d['conf'][i]) > 60:
+            if re.match(regex_pattern, d['text'][i]):
+                (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
+                image = cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    cv2.imshow('img', image)
+    cv2.waitKey(0)
 
 
-# opening - erosion followed by dilation
-def opening(image):
-    kernel = np.ones((5, 5), np.uint8)
-    return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
-
-
-# canny edge detection
-def canny(image):
-    return cv2.Canny(image, 100, 200)
-
-
-# skew correction
-def deskew(image):
-    coords = np.column_stack(np.where(image > 0))
-    angle = cv2.minAreaRect(coords)[-1]
-    if angle < -45:
-        angle = -(90 + angle)
-    else:
-        angle = -angle
-        (h, w) = image.shape[:2]
-        center = (w // 2, h // 2)
-        M = cv2.getRotationMatrix2D(center, angle, 1.0)
-        rotated = cv2.warpAffine(image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
-    return rotated
-
-
-# template matching
-def match_template(image, template):
-    return cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+if __name__ == '__main__':
+    get_characters_to_string(img)
