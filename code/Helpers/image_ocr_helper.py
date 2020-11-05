@@ -9,6 +9,7 @@ from pytesseract import Output, pytesseract
 # custom_config = r' -c preserve_interword_spaces=1 -l jpn --psm 6' tratar espaços gerados pelo ocr
 # print(pytesseract.image_to_string(img, config=custom_config))
 
+
 def get_characters_and_outline_positions(image):
     custom_config = r'-l jpn+eng --psm 6'
     h, w, c = image.shape
