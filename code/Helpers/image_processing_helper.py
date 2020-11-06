@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 
 
+# stacked_img = np.stack((image,)*3, axis=-1) give 3 channels to image
+
 # get grayscale image
 def get_grayscale(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

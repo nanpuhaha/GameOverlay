@@ -17,14 +17,7 @@ def captch_ex(file_name):
     # neste ponto, temos a imagem bem tratada, porem cortar apenas o texto
     cv2.imshow('Imagem processada', new_img)
 
-    #size = new_img.shape
-    #imgout = np.zeros(size, dtype=new_img.dtype)
-    #regions = np.zeros(size, dtype=new_img.dtype)
-    #teste = cv2.text.detectTextSWT(new_img, False, imgout, regions)
 
-    '''
-            line  8 to 12  : Remove noisy portion 
-    '''
     kernel = cv2.getStructuringElement(cv2.MORPH_CROSS, (3,
                                                          3))  # to manipulate the orientation of dilution , large x means horizonatally dilating  more, large y means vertically dilating more
     dilated = cv2.dilate(new_img, kernel, iterations=9)  # dilate , more the iteration more the dilation

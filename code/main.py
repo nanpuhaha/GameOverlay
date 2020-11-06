@@ -3,7 +3,7 @@ import Helpers.image_ocr_helper as ocr_helper
 import Helpers.image_processing_helper as processing_helper
 import teste
 
-image_local = '../Support/ImagesTest/OCR_Test3.png'
+image_local = '../Support/ImagesTest/In_Game_Image_edited.jpg'
 image = cv2.imread(image_local)
 
 if __name__ == '__main__':
