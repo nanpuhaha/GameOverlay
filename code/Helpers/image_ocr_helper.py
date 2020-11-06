@@ -16,7 +16,7 @@ def get_characters_and_outline_positions(image):
     boxes = pytesseract.image_to_boxes(image, config=custom_config)
     for b in boxes.splitlines():
         b = b.split(' ')
-        img_result = cv2.rectangle(image, (int(b[1]), h - int(b[2])), (int(b[3]), h - int(b[4])), (0, 255, 0), 1)
+        img_result = cv2.rectangle(image, (int(b[1]), h - int(b[2])), (int(b[3]), h - int(b[4])), (255, 0, 255), 1)
 
     cv2.imshow('img', img_result)
     cv2.waitKey(0)
