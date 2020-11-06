@@ -1,15 +1,11 @@
 import cv2
 import numpy as np
-import pytesseract
 
-import teste
-from Helpers.image_hsv_helper import testhsv
-
+from util.image_hsv_util import testhsv
+from Helpers.image_ocr_helper import get_characters_to_string
 
 # Load image, convert to HSV format, define lower/upper ranges, and perform
 # color segmentation to create a binary mask
-from Helpers.image_ocr_helper import get_characters_to_string
-from Helpers.image_processing_helper import remove_noise
 local_image = '../../Support/ImagesTest/In_Game_Image_2.jpg'
 
 image = cv2.imread(local_image)
