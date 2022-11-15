@@ -50,10 +50,9 @@ def get_text_from_image_with_regex(image):
 
     n_boxes = len(d['text'])
     for i in range(n_boxes):
-        if int(d['conf'][i]) > 60:
-            if re.match(regex_pattern, d['text'][i]):
-                (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
-                image = cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        if int(d['conf'][i]) > 60 and re.match(regex_pattern, d['text'][i]):
+            (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
+            image = cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     cv2.imshow('img', image)
     cv2.waitKey(0)
